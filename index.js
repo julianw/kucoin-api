@@ -643,6 +643,70 @@ class Kucoin {
   }
 
   /**
+   * Retrieve detail of a order for the specified trading pair.
+   * @access public
+   * @param {{pair: string, type: string, orderOid: string, limit: number, page: number}} params Order details including the trading pair, type, orderOid, limit, and page number for the orders.
+   * @return {Promise} An object containing the API response.
+   * @example
+   * kc.getOrderDetail({
+   *   pair: 'KCS-BTC',
+   *   type: 'BUY',
+   *   orderOid: 'xxxxxxxx',
+   * }).then(console.log).catch(console.error)
+   * 
+   * // Returns:
+   * 
+   * {
+   *   "success": true,
+   *   "code": "OK",
+   *   "msg": "Operation succeeded.",
+   *   "timestamp": 1508308350807,
+   *   "data": {
+   *     "coinType": "KCS",
+   *     "dealValueTotal": 0.00938022,
+   *     "dealPriceAverage": 0.0001009,
+   *     "feeTotal": 2e-8,
+   *     "userOid": "5969ddc96732d54312eb960e",
+   *     "dealAmount": 0,
+   *     "dealOrders": {
+   *       "total": 709,
+   *       "firstPage": true,
+   *       "lastPage": false,
+   *       "datas": [
+   *         {
+   *           "amount": 1,
+   *           "dealValue": 0.0001009,
+   *           "fee": 1e-8,
+   *           "dealPrice": 0.0001009,
+   *           "feeRate": 0
+   *         },
+   *         {
+   *           "amount": 92.79323381,
+   *           "dealValue": 0.00927932,
+   *           "fee": 1e-8,
+   *           "dealPrice": 0.0001,
+   *           "feeRate": 0
+   *         }
+   *       ],
+   *       "currPageNo": 1,
+   *       "limit": 2,
+   *       "pageNos": 355
+   *     },
+   *     "coinTypePair": "BTC",
+   *     "orderPrice": 0.0001067,
+   *     "type": "SELL",
+   *     "orderOid": "59e41cd69bd8d374c9956c75",
+   *     "pendingAmount": 187.34
+   *   }
+   * }
+   */
+
+  getOrderDetail(params = {}) {
+    params.symbol = params.pair
+    return this.doSignedRequest('get', '/order/detail', params)
+  }
+
+  /**
    * Retrieve current price ticker data for the specified trading pair.
    * @access public
    * @param {{pair: string}} params The trading pair to retrieve price ticker for.
